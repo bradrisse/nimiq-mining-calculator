@@ -27,3 +27,5 @@ yarn-error.log*
 .idea/nimiq-mining-calculator.iml
 
 .idea/workspace.xml
+
+.idea/vcs.xml
