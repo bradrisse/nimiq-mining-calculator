@@ -138,7 +138,7 @@ class Calculator extends React.Component {
                     <div className={classes.calcWrap}>
                         <Card className={classes.card}>
                             <CardContent>
-                                <Typography className={classes.title}>Mining Calculator</Typography>
+                                <Typography className={classes.title}>Nimiq Mining Calculator</Typography>
                                 <form onSubmit={handleSubmit(this.submit)} className={classes.container}>
                                     <Field name="hashRate" type="number" component={TextField} placeholder="Hashing Power" helperText="helper" className={classes.textField} required/>
                                     <Field
