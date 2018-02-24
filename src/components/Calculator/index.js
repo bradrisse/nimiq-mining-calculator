@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import Card, {CardContent, CardHeader} from 'material-ui/Card';
+import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
+import { FormControl } from 'material-ui/Form';
 import Typography from 'material-ui/Typography';
 import {Field, reduxForm} from 'redux-form';
-import Input from 'material-ui/Input';
 import { Select, TextField } from 'redux-form-material-ui';
 import Button from 'material-ui/Button';
 import ProfitTable from 'components/ProfitTable';
@@ -39,6 +40,9 @@ const styles = theme => ({
     },
     calcWrap: {
         padding: 30
+    },
+    formControl: {
+        minWidth: '100%'
     }
 });
 
@@ -145,32 +149,42 @@ class Calculator extends React.Component {
                             />
                             <CardContent>
                                 <form onSubmit={handleSubmit(this.submit)} className={classes.container}>
-                                    <Field name="hashRate" type="number" component={TextField} placeholder="Hashing Power" helperText="helper" className={classes.textField} required/>
-                                    <Field
-                                        name="hashUnit"
-                                        component={Select}
-                                        inputfield={<Input id="hashing-Unit"/>}
-                                        value="h"
-                                    >
-                                        <MenuItem value="h">H/s</MenuItem>
-                                        <MenuItem value="kh">KH/s</MenuItem>
-                                        <MenuItem value="mh">MH/s</MenuItem>
-                                        <MenuItem value="gh">GH/s</MenuItem>
-                                        <MenuItem value="th">TH/s</MenuItem>
-                                    </Field>
+                                    <Grid container>
+                                        <Grid item xs={7}>
+                                            <Field name="hashRate" component={TextField} label="Hashing Power" className={classes.textField} required/>
+                                        </Grid>
+                                        <Grid item xs={5}>
+                                            <FormControl className={classes.formControl}>
+                                                <InputLabel htmlFor="hashUnit">Hash Unit</InputLabel>
+                                                <Field
+                                                    name="hashUnit"
+                                                    component={Select}
+                                                    inputfield={<Input id="hashing-Unit" label="Hash Unit"/>}
+                                                    value="h"
+                                                    fullWidth
+                                                >
+                                                    <MenuItem value="h">H/s</MenuItem>
+                                                    <MenuItem value="kh">KH/s</MenuItem>
+                                                    <MenuItem value="mh">MH/s</MenuItem>
+                                                    <MenuItem value="gh">GH/s</MenuItem>
+                                                    <MenuItem value="th">TH/s</MenuItem>
+                                                </Field>
+                                            </FormControl>
+                                        </Grid>
+                                    </Grid>
                                     <div className="cf"></div>
-                                    <Field fullWidth name="powerConsumption" label="Power Consumption (w)" type="number" component={TextField} placeholder="Power Consumption" helperText="helper" className={classes.textField} required/>
-                                    <Field fullWidth name="kwhCost" label="Cost per KWH ($)" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
-                                    <Field fullWidth name="poolFee" label="Pool Fee" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
+                                    <Field fullWidth name="powerConsumption" label="Power Consumption (w)" component={TextField} placeholder="Power Consumption" className={classes.textField} required/>
+                                    <Field fullWidth name="kwhCost" label="Cost per KWH ($)" component={TextField} placeholder="" className={classes.textField}  required/>
+                                    <Field fullWidth name="poolFee" label="Pool Fee" component={TextField} placeholder="" className={classes.textField}  required/>
                                     <ExpansionPanel elevation={0}>
                                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                                             <Typography className={classes.heading}>Advanced</Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails className={classes.container}>
-                                            <Field fullWidth name="globalHashRate" label="Global Hash Rate" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
-                                            <Field fullWidth name="blockTime" label="Block Time" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
-                                            <Field fullWidth name="reward" label="Block Reward" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
-                                            <Field fullWidth name="price" label="NIM Price" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
+                                            <Field fullWidth name="globalHashRate" label="Global Hash Rate" component={TextField} placeholder="" className={classes.textField}  required/>
+                                            <Field fullWidth name="blockTime" label="Block Time" component={TextField} placeholder="" className={classes.textField}  required/>
+                                            <Field fullWidth name="reward" label="Block Reward" component={TextField} placeholder="" className={classes.textField}  required/>
+                                            <Field fullWidth name="price" label="NIM Price" component={TextField} placeholder="" className={classes.textField}  required/>
                                         </ExpansionPanelDetails>
                                     </ExpansionPanel>
                                     <Button type="submit" variant="raised">Calculate</Button>
