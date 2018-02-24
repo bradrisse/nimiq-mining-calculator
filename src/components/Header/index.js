@@ -15,8 +15,7 @@ const styles = {
         flexGrow: 1,
     },
     title: {
-        marginLeft: 15,
-        flex: 1
+        marginLeft: 15
     },
     flex: {
         flex: 1

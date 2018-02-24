@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Header from 'components/Header';
 import Calculator from 'components/Calculator';
 import {compose} from 'recompose';
-import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {actions as cmcActions} from "ducks/cmc";
@@ -23,10 +22,6 @@ class App extends Component {
     );
   }
 }
-
-App.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 function mapStateToProps(state) {
     return {

@@ -168,7 +168,7 @@ class Calculator extends React.Component {
         const {classes, handleSubmit} = this.props;
         return (
             <Grid container style={{maxWidth:1024, margin: '0 auto'}}>
-                <Grid item xs={5}>
+                <Grid item xs={12} sm={5}>
                     <div className={classes.calcWrap}>
                         <Card className={classes.card} elevation={0}>
                             <CardHeader
@@ -208,10 +208,32 @@ class Calculator extends React.Component {
                                             <Typography className={classes.heading}>Advanced</Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails className={classes.container}>
-                                            <Field fullWidth name="globalHashRate" label="Global Hash Rate" component={TextField} placeholder="" className={classes.textField}/>
-                                            <Field fullWidth name="blockTime" label="Block Time" component={TextField} placeholder="" className={classes.textField}/>
-                                            <Field fullWidth name="reward" label="Block Reward" component={TextField} placeholder="" className={classes.textField}/>
-                                            <Field fullWidth name="price" label="NIM Price" component={TextField} placeholder="" className={classes.textField}/>
+                                            <Grid container>
+                                                <Grid item xs={7}>
+                                                    <Field fullWidth name="globalHashRate" label="Global Hash Rate" component={TextField} placeholder="" className={classes.textField}/>
+                                                </Grid>
+                                                <Grid item xs={5}>
+                                                    <FormControl className={classes.formControl}>
+                                                        <InputLabel htmlFor="globalHashUnit">Hash Unit</InputLabel>
+                                                        <Field
+                                                            name="hashUnit"
+                                                            component={Select}
+                                                            inputfield={<Input id="hashing-Unit" label="Hash Unit"/>}
+                                                            value="h"
+                                                            fullWidth
+                                                        >
+                                                            <MenuItem value="h">H/s</MenuItem>
+                                                            <MenuItem value="kh">KH/s</MenuItem>
+                                                            <MenuItem value="mh">MH/s</MenuItem>
+                                                            <MenuItem value="gh">GH/s</MenuItem>
+                                                            <MenuItem value="th">TH/s</MenuItem>
+                                                        </Field>
+                                                    </FormControl>
+                                                </Grid>
+                                            </Grid>
+                                            <Field fullWidth name="blockTime" label="Block Time (sec)" component={TextField} placeholder="" className={classes.textField}/>
+                                            <Field fullWidth name="reward" label="Block Reward (NIM)" component={TextField} placeholder="" className={classes.textField}/>
+                                            <Field fullWidth name="price" label="NIM Price ($)" component={TextField} placeholder="" className={classes.textField}/>
                                         </ExpansionPanelDetails>
                                     </ExpansionPanel>
                                     <Button type="submit" variant="raised">Calculate</Button>
@@ -220,7 +242,7 @@ class Calculator extends React.Component {
                         </Card>
                     </div>
                 </Grid>
-                <Grid item xs={7}>
+                <Grid item xs={12} sm={7}>
                     <ProfitTable statistics={this.state.statistics}/>
                 </Grid>
             </Grid>
