@@ -57,6 +57,13 @@ export default {
             colorSecondary: {
                 color: 'white'
             }
+        },
+        MuiExpansionPanel: {
+            root: {
+                '&:before': {
+                    backgroundColor: 'transparent'
+                }
+            }
         }
     }
 }

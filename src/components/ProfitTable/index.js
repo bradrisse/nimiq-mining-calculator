@@ -51,7 +51,13 @@ const styles = {
     colWrapNegative: {
         padding: '15px 15px 0 15px!important',
         background: '#F15C5C'
-    }
+    },
+    textPositive: {
+        color: '#258C66'
+    },
+    textNegative: {
+        color: '#C14848'
+    },
 };
 
 class ProfitTable extends React.Component {
@@ -71,11 +77,11 @@ class ProfitTable extends React.Component {
                             </Grid>
                             <Grid item xs={4} className={classes.colWrapBorder}>
                                 <Typography variant="caption" align="right">Mined per {section}</Typography>
-                                <Typography variant="title" align="right">NIM {statistics[section].mined}</Typography>
+                                <Typography variant="title" align="right" className={statistics[section].profit > 0 ? classes.textPositive : classes.textNegative}>NIM {statistics[section].mined}</Typography>
                             </Grid>
                             <Grid item xs={4} className={classes.colWrap}>
                                 <Typography variant="caption" align="right">Power cost/{section}</Typography>
-                                <Typography variant="title" align="right">${statistics[section].powerCost}</Typography>
+                                <Typography variant="title" align="right" className={statistics[section].profit > 0 ? classes.textPositive : classes.textNegative}>${statistics[section].powerCost}</Typography>
                             </Grid>
                         </Grid>
                     </div>
