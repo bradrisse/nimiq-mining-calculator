@@ -10,10 +10,7 @@ import { Select, TextField } from 'redux-form-material-ui';
 import Button from 'material-ui/Button';
 import ProfitTable from 'components/ProfitTable';
 import Grid from 'material-ui/Grid';
-import ExpansionPanel, {
-    ExpansionPanelSummary,
-    ExpansionPanelDetails,
-} from 'material-ui/ExpansionPanel';
+import ExpansionPanel, { ExpansionPanelSummary, ExpansionPanelDetails } from 'material-ui/ExpansionPanel';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 
 import {compose} from 'recompose';
