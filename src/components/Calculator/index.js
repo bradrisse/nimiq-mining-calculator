@@ -2,20 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import Card, {CardContent, CardHeader} from 'material-ui/Card';
-import Input, { InputLabel } from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
-import { FormControl } from 'material-ui/Form';
+import Input, {InputLabel} from 'material-ui/Input';
+import {MenuItem} from 'material-ui/Menu';
+import {FormControl} from 'material-ui/Form';
 import Typography from 'material-ui/Typography';
 import {Field, reduxForm} from 'redux-form';
-import { Select, TextField } from 'redux-form-material-ui';
+import {Select, TextField} from 'redux-form-material-ui';
 import Button from 'material-ui/Button';
 import ProfitTable from 'components/ProfitTable';
 import Grid from 'material-ui/Grid';
-import ExpansionPanel, { ExpansionPanelSummary, ExpansionPanelDetails } from 'material-ui/ExpansionPanel';
+import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails} from 'material-ui/ExpansionPanel';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import {connect} from "react-redux";
+import IconButton from 'material-ui/IconButton';
+import ShareIcon from 'material-ui-icons/Share';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import _ from 'lodash';
 
 import {compose} from 'recompose';
+
+const addParameterToURL = (param, value) => {
+    var _url = window.location.href;
+    _url += ( _url.match(/[\?]/g) ? '&' : '?' ) + param + '=' + value;
+    window.location.href = _url;
+}
 
 const styles = theme => ({
     container: {
@@ -78,7 +88,7 @@ const _formatNumber = (num, price) => {
         }
 
         if (Math.abs(_num) < 0.009) {
-            console.log('num',num)
+            console.log('num', num)
             _num = num.toFixed(6)
         }
     } else {
@@ -93,6 +103,20 @@ const _formatNumber = (num, price) => {
     return _num
 }
 
+const defaultValues = {
+    hashRate: 36,
+    hashUnit: 'kh',
+    powerConsumption: 400,
+    kwhCost: 0.10,
+    poolFee: 1,
+    globalHashRate: 200,
+    globalHashUnit: 'mh',
+    blockTime: 60,
+    reward: 5000,
+    price: 0.05,
+    hardwareCost: 1000
+}
+
 class Calculator extends React.Component {
 
     state = {
@@ -100,33 +124,49 @@ class Calculator extends React.Component {
     }
 
     componentDidMount() {
-        this.submit({
-            hashRate: 36,
-            hashUnit: 'kh',
-            powerConsumption: 400,
-            kwhCost: 0.10,
-            poolFee: 1,
-            globalHashRate: 200,
-            globalHashUnit: 'mh',
-            blockTime: 60,
-            reward: 5000,
-            price: 0.05,
-            hardwareCost: 1000
-        });
+        this.submit(this.checkForParams(defaultValues));
+        this.createShareUrl(defaultValues)
+    }
+
+    checkForParams = (_defaultValues) => {
+        var _params = window.location.search.substring(1).split('&');
+        _.each(_params, (param) => {
+            var paramSplit = param.split('=');
+            if (_defaultValues[paramSplit[0]]) {
+                _defaultValues[paramSplit[0]] = paramSplit[1]
+            }
+        })
+        return defaultValues;
+    }
+
+    createShareUrl(_values) {
+        console.log('_values ', _values)
+        var _initialValues = _values;
+        var _params = '';
+        _.each(Object.keys(_initialValues), (valueKey, index) => {
+            _params += `${valueKey}=${_initialValues[valueKey]}`
+            if (index < (Object.keys(_initialValues).length - 1)) {
+                _params += '&'
+            }
+        })
+        this.setState({
+            copyUrl: 'https://nimiqminer.com?' + _params
+        })
     }
 
     submit = (values) => {
         this.calculateProfit(values)
+        this.createShareUrl(values)
     }
 
     calculateProfit = (values) => {
         let _hashRate = convertToH(values.hashRate, values.hashUnit);
         const myWinProbability = _hashRate / convertToH(parseFloat(values.globalHashRate), values.globalHashUnit);
         var expectedHashTime = (1 / myWinProbability) * parseFloat(values.blockTime);
-        var numWinning = (86400/expectedHashTime);
+        var numWinning = (86400 / expectedHashTime);
         var mined = parseFloat(numWinning) * parseFloat(values.reward);
         var totalProfit = parseFloat(mined) * parseFloat(values.price);
-        var poolFee = parseFloat(totalProfit) * parseFloat(values.poolFee)/100;
+        var poolFee = parseFloat(totalProfit) * parseFloat(values.poolFee) / 100;
         var powerCost = (parseFloat(values.powerConsumption) / 1000) * 24 * parseFloat(values.kwhCost);
         var statistics = {
             day: {
@@ -168,18 +208,26 @@ class Calculator extends React.Component {
     render() {
         const {classes, handleSubmit} = this.props;
         return (
-            <Grid container style={{maxWidth:1024, margin: '0 auto'}}>
+            <Grid container style={{maxWidth: 1024, margin: '0 auto'}}>
                 <Grid item xs={12} sm={5}>
                     <div className={classes.calcWrap}>
                         <Card className={classes.card} elevation={0}>
                             <CardHeader
                                 title="Mining Calculator"
+                                action={
+                                    <CopyToClipboard text={this.state.copyUrl} onCopy={() => this.setState({copied: true})}>
+                                        <IconButton>
+                                            <ShareIcon/>
+                                        </IconButton>
+                                    </CopyToClipboard>
+                                }
                             />
                             <CardContent>
                                 <form onSubmit={handleSubmit(this.submit)} className={classes.container}>
                                     <Grid container>
                                         <Grid item xs={7}>
-                                            <Field name="hashRate" component={TextField} label="Hashing Power" className={classes.textField} required/>
+                                            <Field name="hashRate" component={TextField} label="Hashing Power"
+                                                   className={classes.textField} required/>
                                         </Grid>
                                         <Grid item xs={5}>
                                             <FormControl className={classes.formControl}>
@@ -201,18 +249,25 @@ class Calculator extends React.Component {
                                         </Grid>
                                     </Grid>
                                     <div className="cf"></div>
-                                    <Field fullWidth name="hardwareCost" label="Hardware Cost ($)" component={TextField} placeholder="" className={classes.textField}/>
-                                    <Field fullWidth name="powerConsumption" label="Power Consumption (w)" component={TextField} placeholder="Power Consumption" className={classes.textField} required/>
-                                    <Field fullWidth name="kwhCost" label="Cost per KWH ($)" component={TextField} placeholder="" className={classes.textField}  required/>
-                                    <Field fullWidth name="poolFee" label="Pool Fee" component={TextField} placeholder="" className={classes.textField}  required/>
+                                    <Field fullWidth name="hardwareCost" label="Hardware Cost ($)" component={TextField}
+                                           placeholder="" className={classes.textField}/>
+                                    <Field fullWidth name="powerConsumption" label="Power Consumption (w)"
+                                           component={TextField} placeholder="Power Consumption"
+                                           className={classes.textField} required/>
+                                    <Field fullWidth name="kwhCost" label="Cost per KWH ($)" component={TextField}
+                                           placeholder="" className={classes.textField} required/>
+                                    <Field fullWidth name="poolFee" label="Pool Fee" component={TextField}
+                                           placeholder="" className={classes.textField} required/>
                                     <ExpansionPanel elevation={0}>
-                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                                             <Typography className={classes.heading}>Advanced</Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails className={classes.container}>
                                             <Grid container>
                                                 <Grid item xs={7}>
-                                                    <Field fullWidth name="globalHashRate" label="Global Hash Rate" component={TextField} placeholder="" className={classes.textField}/>
+                                                    <Field fullWidth name="globalHashRate" label="Global Hash Rate"
+                                                           component={TextField} placeholder=""
+                                                           className={classes.textField}/>
                                                 </Grid>
                                                 <Grid item xs={5}>
                                                     <FormControl className={classes.formControl}>
@@ -233,9 +288,12 @@ class Calculator extends React.Component {
                                                     </FormControl>
                                                 </Grid>
                                             </Grid>
-                                            <Field fullWidth defaultValue={60} name="blockTime" label="Block Time (sec)" component={TextField} placeholder="" className={classes.textField}/>
-                                            <Field fullWidth name="reward" label="Block Reward (NIM)" component={TextField} placeholder="" className={classes.textField}/>
-                                            <Field fullWidth name="price" label="NIM Price ($)" component={TextField} placeholder="" className={classes.textField}/>
+                                            <Field fullWidth defaultValue={60} name="blockTime" label="Block Time (sec)"
+                                                   component={TextField} placeholder="" className={classes.textField}/>
+                                            <Field fullWidth name="reward" label="Block Reward (NIM)"
+                                                   component={TextField} placeholder="" className={classes.textField}/>
+                                            <Field fullWidth name="price" label="NIM Price ($)" component={TextField}
+                                                   placeholder="" className={classes.textField}/>
                                         </ExpansionPanelDetails>
                                     </ExpansionPanel>
                                     <Button type="submit" variant="raised">Calculate</Button>
@@ -249,7 +307,12 @@ class Calculator extends React.Component {
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="caption" component="p" align="center">
-                        The estimated expected cryptocurrency earnings are based on a statistical calculation using the values entered and do not account for difficulty and exchange rate fluctuations, stale/reject/orphan rates, and a pool's efficiency. If you are mining using a pool, the estimated expected cryptocurrency earnings can vary greatly depending on the pool's efficiency, stale/reject/orphan rate, and fees. If you are mining solo, the estimated expected cryptocurrency earnings can vary greatly depending on your luck and stale/reject/orphan rate.
+                        The estimated expected cryptocurrency earnings are based on a statistical calculation using the
+                        values entered and do not account for difficulty and exchange rate fluctuations,
+                        stale/reject/orphan rates, and a pool's efficiency. If you are mining using a pool, the
+                        estimated expected cryptocurrency earnings can vary greatly depending on the pool's efficiency,
+                        stale/reject/orphan rate, and fees. If you are mining solo, the estimated expected
+                        cryptocurrency earnings can vary greatly depending on your luck and stale/reject/orphan rate.
                     </Typography>
                 </Grid>
             </Grid>
@@ -262,23 +325,9 @@ Calculator.propTypes = {
 };
 
 function mapStateToProps(state, props) {
-    console.log('state ', state)
     return {
         cmc: state.cmc,
-        initialValues: {
-            hashRate: 36,
-            hashUnit: 'kh',
-            powerConsumption: 400,
-            kwhCost: 0.10,
-            poolFee: 1,
-            globalHashRate: 200,
-            globalHashUnit: 'mh',
-            blockTime: 60,
-            reward: 5000,
-            price: 0.05,
-            hardwareCost: 1000
-
-        }
+        initialValues: defaultValues
     }
 }
 
