@@ -13,10 +13,9 @@ import ProfitTable from 'components/ProfitTable';
 import Grid from 'material-ui/Grid';
 import ExpansionPanel, { ExpansionPanelSummary, ExpansionPanelDetails } from 'material-ui/ExpansionPanel';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
+import {connect} from "react-redux";
 
 import {compose} from 'recompose';
-
-const defaultValues = {hashRate: 36, hashUnit: 'kh', powerConsumption: 400, kwhCost: 0.10, poolFee: 1};
 
 const styles = theme => ({
     container: {
@@ -57,22 +56,18 @@ const convertToH = (_rate, _unit) => {
             return _H * 1000;
             break;
         case 'mh':
-            return _H * 10000;
+            return _H * 1000000;
             break;
         case 'gh':
-            return _H * 100000;
+            return _H * 1000000000;
             break;
         case 'th':
-            return _H * 1000000;
+            return _H * 1000000000000000;
             break;
 
     }
 }
 
-const _globalHashRate = 200 * 1000 * 1000;
-const _blockTime = 60;
-const _reward = 5000;
-const _price = 0.05;
 
 const _formatNumber = (num, price) => {
     let _num = num;
@@ -105,7 +100,18 @@ class Calculator extends React.Component {
     }
 
     componentDidMount() {
-        this.submit(defaultValues);
+        this.submit({
+            hashRate: 36,
+            hashUnit: 'kh',
+            powerConsumption: 400,
+            kwhCost: 0.10,
+            poolFee: 1,
+            globalHashRate: 200,
+            globalHashUnit: 'mh',
+            blockTime: 60,
+            reward: 5000,
+            price: 0.05
+        });
     }
 
     submit = (values) => {
@@ -114,16 +120,12 @@ class Calculator extends React.Component {
 
     calculateProfit = (values) => {
         let _hashRate = convertToH(values.hashRate, values.hashUnit);
-        console.log('_hashRate ', _hashRate)
-        const myWinProbability = _hashRate / _globalHashRate;
-        console.log('myWinProbability ', myWinProbability)
-        var expectedHashTime = (1 / myWinProbability) * _blockTime;
-        console.log('expectedHashTime ', expectedHashTime)
+        const myWinProbability = _hashRate / convertToH(parseFloat(values.globalHashRate), values.globalHashUnit);
+        var expectedHashTime = (1 / myWinProbability) * parseFloat(values.blockTime);
         var numWinning = (86400/expectedHashTime);
-        var mined = parseFloat(numWinning) * parseFloat(_reward);
-        var totalProfit = parseFloat(mined) * parseFloat(_price);
+        var mined = parseFloat(numWinning) * parseFloat(values.reward);
+        var totalProfit = parseFloat(mined) * parseFloat(values.price);
         var poolFee = parseFloat(totalProfit) * parseFloat(values.poolFee)/100;
-        console.log('poolFee ', parseFloat(totalProfit), parseFloat(values.poolFee), poolFee)
         var powerCost = (parseFloat(values.powerConsumption) / 1000) * 24 * parseFloat(values.kwhCost);
         var statistics = {
             day: {
@@ -134,7 +136,6 @@ class Calculator extends React.Component {
             }
         }
 
-        console.log('statistics ', statistics)
 
         statistics.week = {
             profit: _formatNumber(statistics.day.profit * 7, true),
@@ -161,7 +162,6 @@ class Calculator extends React.Component {
             statistics: statistics
         })
 
-        console.log('statistics ', statistics)
     }
 
     render() {
@@ -216,7 +216,7 @@ class Calculator extends React.Component {
                                                     <FormControl className={classes.formControl}>
                                                         <InputLabel htmlFor="globalHashUnit">Hash Unit</InputLabel>
                                                         <Field
-                                                            name="hashUnit"
+                                                            name="globalHashUnit"
                                                             component={Select}
                                                             inputfield={<Input id="hashing-Unit" label="Hash Unit"/>}
                                                             value="h"
@@ -231,7 +231,7 @@ class Calculator extends React.Component {
                                                     </FormControl>
                                                 </Grid>
                                             </Grid>
-                                            <Field fullWidth name="blockTime" label="Block Time (sec)" component={TextField} placeholder="" className={classes.textField}/>
+                                            <Field fullWidth defaultValue={60} name="blockTime" label="Block Time (sec)" component={TextField} placeholder="" className={classes.textField}/>
                                             <Field fullWidth name="reward" label="Block Reward (NIM)" component={TextField} placeholder="" className={classes.textField}/>
                                             <Field fullWidth name="price" label="NIM Price ($)" component={TextField} placeholder="" className={classes.textField}/>
                                         </ExpansionPanelDetails>
@@ -254,7 +254,28 @@ Calculator.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
+function mapStateToProps(state, props) {
+    console.log('props ', state.cmc.nim)
+    return {
+        cmc: state.cmc,
+        initialValues: {
+            hashRate: 36,
+            hashUnit: 'kh',
+            powerConsumption: 400,
+            kwhCost: 0.10,
+            poolFee: 1,
+            globalHashRate: 200,
+            globalHashUnit: 'mh',
+            blockTime: 60,
+            reward: 5000,
+            price: 0.05
+
+        }
+    }
+}
+
 export default compose(
     withStyles(styles),
-    reduxForm({form: 'miningCalc', initialValues: defaultValues}),
+    connect(mapStateToProps),
+    reduxForm({form: 'miningCalc'}, mapStateToProps),
 )(Calculator);
