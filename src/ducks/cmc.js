@@ -9,8 +9,7 @@ export const initial = {
 export default function (state = initial, action) {
     switch (action.type) {
         case `${types.FETCH_NIM}_SUCCESS`:
-            console.log('action.payload ', action.payload[0])
-            return {...state, nim: action.payload.data};
+            return {...state, nim: action.payload.data[0]};
         default:
             return state;
     }

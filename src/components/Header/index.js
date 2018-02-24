@@ -1,21 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from "react-redux";
+import {compose} from 'recompose';
+import {bindActionCreators} from "redux";
+import {actions as cmcActions} from "ducks/cmc";
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
+import Grid from 'material-ui/Grid';
 
 const styles = {
     root: {
         flexGrow: 1,
     },
     title: {
-        marginLeft: 15
+        marginLeft: 15,
+        flex: 1
+    },
+    flex: {
+        flex: 1
     }
 };
 
 function Header(props) {
-    const { classes } = props;
+    const { classes, cmc } = props;
     return (
         <div className={classes.root}>
             <AppBar position="static" color="primary">
@@ -26,6 +35,32 @@ function Header(props) {
                     <Typography variant="title" color="inherit" className={classes.title}>
                         Nimiq Miner
                     </Typography>
+                    {cmc.nim && <Grid container className={classes.flex} justify="flex-end">
+                        <Grid item>
+                            <Typography variant="caption" color="inherit" align="center">
+                                Volume (24hr)
+                            </Typography>
+                            <Typography variant="body" color="inherit" align="center">
+                                ${cmc.nim['24h_volume_usd']}
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="caption" color="inherit" align="center">
+                                Price USD
+                            </Typography>
+                            <Typography variant="body" color="inherit" align="center">
+                                ${cmc.nim.price_usd}
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="caption" color="inherit" align="center">
+                                Change (24hr)
+                            </Typography>
+                            <Typography variant="captions" color="inherit" align="center">
+                                {cmc.nim.percent_change_24h}%
+                            </Typography>
+                        </Grid>
+                    </Grid>}
                 </Toolbar>
             </AppBar>
         </div>
@@ -36,4 +71,19 @@ Header.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Header);
+function mapStateToProps(state) {
+    return {
+        cmc: state.cmc
+    };
+}
+
+function mapPropsToDispatch(dispatch) {
+    return {
+        cmcActions: bindActionCreators(cmcActions, dispatch)
+    };
+}
+
+export default compose(
+    withStyles(styles),
+    connect(mapStateToProps, mapPropsToDispatch)
+)(Header);
