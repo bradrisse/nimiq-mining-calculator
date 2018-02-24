@@ -40,7 +40,7 @@ function Header(props) {
                             <Typography variant="caption" color="inherit" align="center">
                                 Volume (24hr)
                             </Typography>
-                            <Typography variant="body" color="inherit" align="center">
+                            <Typography variant="title" color="inherit" align="center">
                                 ${cmc.nim['24h_volume_usd']}
                             </Typography>
                         </Grid>
@@ -48,7 +48,7 @@ function Header(props) {
                             <Typography variant="caption" color="inherit" align="center">
                                 Price USD
                             </Typography>
-                            <Typography variant="body" color="inherit" align="center">
+                            <Typography variant="title" color="inherit" align="center">
                                 ${cmc.nim.price_usd}
                             </Typography>
                         </Grid>
@@ -56,7 +56,7 @@ function Header(props) {
                             <Typography variant="caption" color="inherit" align="center">
                                 Change (24hr)
                             </Typography>
-                            <Typography variant="captions" color="inherit" align="center">
+                            <Typography variant="title" color="inherit" align="center">
                                 {cmc.nim.percent_change_24h}%
                             </Typography>
                         </Grid>
