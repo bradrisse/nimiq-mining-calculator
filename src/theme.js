@@ -16,7 +16,7 @@ import Spacing from 'material-ui/styles/spacing'
 export default {
     spacing: Spacing,
     typography: {
-        fontFamily: 'Montserrat, sans-serif'
+        fontFamily: 'Source Sans Pro, sans-serif'
     },
     palette: {
         primary1Color: '#697796',
