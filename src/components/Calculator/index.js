@@ -74,6 +74,30 @@ const _blockTime = 60;
 const _reward = 5000;
 const _price = 0.05;
 
+const _formatNumber = (num, price) => {
+    let _num = num;
+
+    if (price) {
+        if (Math.abs(_num) >= 0.009) {
+            _num = num.toFixed(2)
+        }
+
+        if (Math.abs(_num) < 0.009) {
+            console.log('num',num)
+            _num = num.toFixed(6)
+        }
+    } else {
+        if (Math.abs(_num) < 1) {
+            _num = parseFloat(num.toFixed(6))
+        }
+
+        if (Math.abs(_num) > 1) {
+            _num = parseFloat(num.toFixed(0))
+        }
+    }
+    return _num
+}
+
 class Calculator extends React.Component {
 
     state = {
@@ -96,38 +120,41 @@ class Calculator extends React.Component {
         var expectedHashTime = (1 / myWinProbability) * _blockTime;
         console.log('expectedHashTime ', expectedHashTime)
         var numWinning = (86400/expectedHashTime);
-        var mined = numWinning * _reward;
-        var totalProfit = mined * _price;
-        var poolFee = totalProfit * parseFloat(values.poolFee)/100;
+        var mined = parseFloat(numWinning) * parseFloat(_reward);
+        var totalProfit = parseFloat(mined) * parseFloat(_price);
+        var poolFee = parseFloat(totalProfit) * parseFloat(values.poolFee)/100;
+        console.log('poolFee ', parseFloat(totalProfit), parseFloat(values.poolFee), poolFee)
         var powerCost = (parseFloat(values.powerConsumption) / 1000) * 24 * parseFloat(values.kwhCost);
         var statistics = {
             day: {
-                profit: (totalProfit - poolFee - powerCost).toFixed(2),
-                poolFee: (poolFee).toFixed(2),
-                mined: (mined).toFixed(0),
-                powerCost: (powerCost).toFixed(2)
+                profit: _formatNumber(totalProfit - poolFee - powerCost, true),
+                poolFee: _formatNumber(poolFee, true),
+                mined: _formatNumber(mined),
+                powerCost: _formatNumber(powerCost, true)
             }
         }
 
+        console.log('statistics ', statistics)
+
         statistics.week = {
-            profit: (statistics.day.profit * 7).toFixed(2),
-            poolFee: (statistics.day.poolFee * 7).toFixed(2),
-            mined: (statistics.day.mined * 7).toFixed(0),
-            powerCost: (statistics.day.powerCost * 7).toFixed(2)
+            profit: _formatNumber(statistics.day.profit * 7, true),
+            poolFee: _formatNumber(statistics.day.poolFee * 7, true),
+            mined: _formatNumber(statistics.day.mined * 7),
+            powerCost: _formatNumber(statistics.day.powerCost * 7, true)
         }
 
         statistics.month = {
-            profit: (statistics.day.profit * 30).toFixed(2),
-            poolFee: (statistics.day.poolFee * 30).toFixed(2),
-            mined: (statistics.day.mined * 30).toFixed(0),
-            powerCost: (statistics.day.powerCost * 30).toFixed(2)
+            profit: _formatNumber(statistics.day.profit * 30, true),
+            poolFee: _formatNumber(statistics.day.poolFee * 30, true),
+            mined: _formatNumber(statistics.day.mined * 30),
+            powerCost: _formatNumber(statistics.day.powerCost * 30, true)
         }
 
         statistics.year = {
-            profit: (statistics.day.profit * 365).toFixed(2),
-            poolFee: (statistics.day.poolFee * 365).toFixed(2),
-            mined: (statistics.day.mined * 365).toFixed(0),
-            powerCost: (statistics.day.powerCost * 365).toFixed(2)
+            profit: _formatNumber(statistics.day.profit * 365, true),
+            poolFee: _formatNumber(statistics.day.poolFee * 365, true),
+            mined: _formatNumber(statistics.day.mined * 365),
+            powerCost: _formatNumber(statistics.day.powerCost * 365, true)
         }
 
         this.setState({
@@ -181,10 +208,10 @@ class Calculator extends React.Component {
                                             <Typography className={classes.heading}>Advanced</Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails className={classes.container}>
-                                            <Field fullWidth name="globalHashRate" label="Global Hash Rate" component={TextField} placeholder="" className={classes.textField}  required/>
-                                            <Field fullWidth name="blockTime" label="Block Time" component={TextField} placeholder="" className={classes.textField}  required/>
-                                            <Field fullWidth name="reward" label="Block Reward" component={TextField} placeholder="" className={classes.textField}  required/>
-                                            <Field fullWidth name="price" label="NIM Price" component={TextField} placeholder="" className={classes.textField}  required/>
+                                            <Field fullWidth name="globalHashRate" label="Global Hash Rate" component={TextField} placeholder="" className={classes.textField}/>
+                                            <Field fullWidth name="blockTime" label="Block Time" component={TextField} placeholder="" className={classes.textField}/>
+                                            <Field fullWidth name="reward" label="Block Reward" component={TextField} placeholder="" className={classes.textField}/>
+                                            <Field fullWidth name="price" label="NIM Price" component={TextField} placeholder="" className={classes.textField}/>
                                         </ExpansionPanelDetails>
                                     </ExpansionPanel>
                                     <Button type="submit" variant="raised">Calculate</Button>

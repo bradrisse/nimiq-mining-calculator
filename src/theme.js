@@ -52,6 +52,11 @@ export default {
             rounded: {
                 borderRadius: 5
             }
+        },
+        MuiTypography: {
+            colorSecondary: {
+                color: 'white'
+            }
         }
     }
 }

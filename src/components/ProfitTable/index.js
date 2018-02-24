@@ -16,14 +16,15 @@ const styles = {
         border: '1px solid #042146',
         marginBottom: 30,
         borderRadius: 15,
-        position: 'relative'
+        position: 'relative',
+        overflow: 'hidden'
     },
     colWrapBorder: {
         padding: '15px 15px 0 15px!important',
         borderRight: '1px solid #042146'
     },
     colWrap: {
-        padding: '15px!important'
+        padding: '15px 15px 0 15px!important',
     },
     sectionTag: {
         position: 'absolute',
@@ -34,7 +35,22 @@ const styles = {
         borderBottomLeftRadius: 14,
         borderTopRightRadius: 14,
         color: 'white',
-        fontSize: 11
+        fontSize: 11,
+        textTransform: 'capitalize'
+    },
+    sectionTagPositive: {
+        background: '#258C66'
+    },
+    sectionTagNegative: {
+        background: '#C14848'
+    },
+    colWrapPositive: {
+        padding: '15px 15px 0 15px!important',
+        background: '#3FB488'
+    },
+    colWrapNegative: {
+        padding: '15px 15px 0 15px!important',
+        background: '#F15C5C'
     }
 };
 
@@ -46,12 +62,12 @@ class ProfitTable extends React.Component {
             <div className={classes.wrap}>
                 {statistics && Object.keys(statistics).map((section, index) => (
                     <div className={classes.rowWrap} key={index}>
-                        <div className={classes.sectionTag}>{section}</div>
+                        <div className={`${classes.sectionTag} ${statistics[section].profit > 0 ? classes.sectionTagPositive : classes.sectionTagNegative}`}>{section}</div>
                         <Grid container key={index} spacing={0}>
-                            <Grid item xs={4} className={classes.colWrapBorder}>
-                                <Typography variant="caption" align="right">Profit per {section}</Typography>
-                                <Typography variant="title" align="right">${statistics[section].profit}</Typography>
-                                <Typography variant="caption" align="right">Pool Fee ${statistics[section].poolFee}</Typography>
+                            <Grid item xs={4} className={statistics[section].profit > 0 ? classes.colWrapPositive : classes.colWrapNegative}>
+                                <Typography variant="caption" align="right" color="secondary">Profit per {section}</Typography>
+                                <Typography variant="title" align="right" color="secondary">${statistics[section].profit}</Typography>
+                                <Typography variant="caption" align="right" color="secondary">Pool Fee ${statistics[section].poolFee}</Typography>
                             </Grid>
                             <Grid item xs={4} className={classes.colWrapBorder}>
                                 <Typography variant="caption" align="right">Mined per {section}</Typography>
