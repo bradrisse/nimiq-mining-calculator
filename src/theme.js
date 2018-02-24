@@ -37,6 +37,21 @@ export default {
             root: {
                 marginTop: -10
             }
+        },
+        MuiAppBar: {
+            colorPrimary: {
+                backgroundColor: '#042146'
+            }
+        },
+        MuiCardHeader: {
+            root: {
+                backgroundColor: '#F0F0F0'
+            }
+        },
+        MuiPaper: {
+            rounded: {
+                borderRadius: 5
+            }
         }
     }
 }

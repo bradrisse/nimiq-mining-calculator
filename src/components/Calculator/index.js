@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
-import Card, {CardContent} from 'material-ui/Card';
+import Card, {CardContent, CardHeader} from 'material-ui/Card';
 import { MenuItem } from 'material-ui/Menu';
 import Typography from 'material-ui/Typography';
 import {Field, reduxForm} from 'redux-form';
@@ -10,6 +10,11 @@ import { Select, TextField } from 'redux-form-material-ui';
 import Button from 'material-ui/Button';
 import ProfitTable from 'components/ProfitTable';
 import Grid from 'material-ui/Grid';
+import ExpansionPanel, {
+    ExpansionPanelSummary,
+    ExpansionPanelDetails,
+} from 'material-ui/ExpansionPanel';
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 
 import {compose} from 'recompose';
 
@@ -23,6 +28,7 @@ const styles = theme => ({
     },
     card: {
         minWidth: 275,
+        border: '1px solid #D9DEE4'
     },
     title: {
         marginBottom: 16,
@@ -62,7 +68,7 @@ const convertToH = (_rate, _unit) => {
     }
 }
 
-const _globalHashRate = 8000000;
+const _globalHashRate = 200 * 1000 * 1000;
 const _blockTime = 60;
 const _reward = 5000;
 const _price = 0.05;
@@ -136,9 +142,11 @@ class Calculator extends React.Component {
             <Grid container style={{maxWidth:1024, margin: '0 auto'}}>
                 <Grid item xs={5}>
                     <div className={classes.calcWrap}>
-                        <Card className={classes.card}>
+                        <Card className={classes.card} elevation={0}>
+                            <CardHeader
+                                title="Mining Calculator"
+                            />
                             <CardContent>
-                                <Typography className={classes.title}>Nimiq Mining Calculator</Typography>
                                 <form onSubmit={handleSubmit(this.submit)} className={classes.container}>
                                     <Field name="hashRate" type="number" component={TextField} placeholder="Hashing Power" helperText="helper" className={classes.textField} required/>
                                     <Field
@@ -157,7 +165,18 @@ class Calculator extends React.Component {
                                     <Field fullWidth name="powerConsumption" label="Power Consumption (w)" type="number" component={TextField} placeholder="Power Consumption" helperText="helper" className={classes.textField} required/>
                                     <Field fullWidth name="kwhCost" label="Cost per KWH ($)" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
                                     <Field fullWidth name="poolFee" label="Pool Fee" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
-                                    <Button type="submit">Calculate</Button>
+                                    <ExpansionPanel elevation={0}>
+                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                            <Typography className={classes.heading}>Advanced</Typography>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails className={classes.container}>
+                                            <Field fullWidth name="globalHashRate" label="Global Hash Rate" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
+                                            <Field fullWidth name="blockTime" label="Block Time" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
+                                            <Field fullWidth name="reward" label="Block Reward" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
+                                            <Field fullWidth name="price" label="NIM Price" type="number" component={TextField} placeholder="" helperText="helper" className={classes.textField}  required/>
+                                        </ExpansionPanelDetails>
+                                    </ExpansionPanel>
+                                    <Button type="submit" variant="raised">Calculate</Button>
                                 </form>
                             </CardContent>
                         </Card>

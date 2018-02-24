@@ -28,7 +28,7 @@ class ProfitTable extends React.Component {
         return (
             <div className={classes.wrap}>
                 {statistics && Object.keys(statistics).map((section, index) => (
-                    <div className={classes.rowWrap}>
+                    <div className={classes.rowWrap} key={index}>
                         <Grid container key={index}>
                             <Grid item xs={4} className={classes.colWrap}>
                                 <Typography variant="caption" align="right">Profit per {section}</Typography>
