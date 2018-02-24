@@ -110,7 +110,8 @@ class Calculator extends React.Component {
             globalHashUnit: 'mh',
             blockTime: 60,
             reward: 5000,
-            price: 0.05
+            price: 0.05,
+            hardwareCost: 1000
         });
     }
 
@@ -200,6 +201,7 @@ class Calculator extends React.Component {
                                         </Grid>
                                     </Grid>
                                     <div className="cf"></div>
+                                    <Field fullWidth name="hardwareCost" label="Hardware Cost ($)" component={TextField} placeholder="" className={classes.textField}/>
                                     <Field fullWidth name="powerConsumption" label="Power Consumption (w)" component={TextField} placeholder="Power Consumption" className={classes.textField} required/>
                                     <Field fullWidth name="kwhCost" label="Cost per KWH ($)" component={TextField} placeholder="" className={classes.textField}  required/>
                                     <Field fullWidth name="poolFee" label="Pool Fee" component={TextField} placeholder="" className={classes.textField}  required/>
@@ -243,7 +245,12 @@ class Calculator extends React.Component {
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={7}>
-                    <ProfitTable statistics={this.state.statistics}/>
+                    <ProfitTable statistics={this.state.statistics} initialValues={this.props.initialValues}/>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="caption" component="p" align="center">
+                        The estimated expected cryptocurrency earnings are based on a statistical calculation using the values entered and do not account for difficulty and exchange rate fluctuations, stale/reject/orphan rates, and a pool's efficiency. If you are mining using a pool, the estimated expected cryptocurrency earnings can vary greatly depending on the pool's efficiency, stale/reject/orphan rate, and fees. If you are mining solo, the estimated expected cryptocurrency earnings can vary greatly depending on your luck and stale/reject/orphan rate.
+                    </Typography>
                 </Grid>
             </Grid>
         )
@@ -255,7 +262,7 @@ Calculator.propTypes = {
 };
 
 function mapStateToProps(state, props) {
-    console.log('props ', state.cmc.nim)
+    console.log('state ', state)
     return {
         cmc: state.cmc,
         initialValues: {
@@ -268,7 +275,8 @@ function mapStateToProps(state, props) {
             globalHashUnit: 'mh',
             blockTime: 60,
             reward: 5000,
-            price: 0.05
+            price: 0.05,
+            hardwareCost: 1000
 
         }
     }

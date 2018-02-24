@@ -58,34 +58,50 @@ const styles = {
     textNegative: {
         color: '#C14848'
     },
+    topStat: {
+        marginBottom: 15
+    }
 };
 
 class ProfitTable extends React.Component {
 
     render() {
-        const { classes, statistics } = this.props;
+        const { classes, statistics, initialValues } = this.props;
+        console.log('initialValues ', initialValues)
         return (
             <div className={classes.wrap}>
-                {statistics && Object.keys(statistics).map((section, index) => (
-                    <div className={classes.rowWrap} key={index}>
-                        <div className={`${classes.sectionTag} ${statistics[section].profit > 0 ? classes.sectionTagPositive : classes.sectionTagNegative}`}>{section}</div>
-                        <Grid container key={index} spacing={0}>
-                            <Grid item xs={4} className={statistics[section].profit > 0 ? classes.colWrapPositive : classes.colWrapNegative}>
-                                <Typography variant="caption" align="right" color="secondary">Profit per {section}</Typography>
-                                <Typography variant="title" align="right" color="secondary">${statistics[section].profit}</Typography>
-                                <Typography variant="caption" align="right" color="secondary">Pool Fee ${statistics[section].poolFee}</Typography>
-                            </Grid>
-                            <Grid item xs={4} className={classes.colWrapBorder}>
-                                <Typography variant="caption" align="right">Mined per {section}</Typography>
-                                <Typography variant="title" align="right" className={statistics[section].profit > 0 ? classes.textPositive : classes.textNegative}>NIM {statistics[section].mined}</Typography>
-                            </Grid>
-                            <Grid item xs={4} className={classes.colWrap}>
-                                <Typography variant="caption" align="right">Power cost/{section}</Typography>
-                                <Typography variant="title" align="right" className={statistics[section].profit > 0 ? classes.textPositive : classes.textNegative}>${statistics[section].powerCost}</Typography>
-                            </Grid>
+                {statistics && <div>
+                    <Grid container className={classes.topStat} spacing={0}>
+                        <Grid xs={4}>
+                            <Typography variant="caption" align="center">Return on Investment</Typography>
+                            <Typography variant="title" align="center">{(initialValues.hardwareCost / statistics['day'].profit).toFixed(0)} days</Typography>
                         </Grid>
-                    </div>
-                ))}
+                        <Grid xs={4}>
+                            <Typography variant="caption" align="center">Single Block Mining Solo</Typography>
+                            <Typography variant="title" align="center">{(initialValues.reward / statistics['day'].mined).toFixed(0)} days</Typography>
+                        </Grid>
+                    </Grid>
+                    { Object.keys(statistics).map((section, index) => (
+                        <div className={classes.rowWrap} key={index}>
+                            <div className={`${classes.sectionTag} ${statistics[section].profit > 0 ? classes.sectionTagPositive : classes.sectionTagNegative}`}>{section}</div>
+                            <Grid container key={index} spacing={0}>
+                                <Grid item xs={4} className={statistics[section].profit > 0 ? classes.colWrapPositive : classes.colWrapNegative}>
+                                    <Typography variant="caption" align="right" color="secondary">Profit per {section}</Typography>
+                                    <Typography variant="title" align="right" color="secondary">${statistics[section].profit}</Typography>
+                                    <Typography variant="caption" align="right" color="secondary">Pool Fee ${statistics[section].poolFee}</Typography>
+                                </Grid>
+                                <Grid item xs={4} className={classes.colWrapBorder}>
+                                    <Typography variant="caption" align="right">Mined per {section}</Typography>
+                                    <Typography variant="title" align="right" className={statistics[section].profit > 0 ? classes.textPositive : classes.textNegative}>NIM {statistics[section].mined}</Typography>
+                                </Grid>
+                                <Grid item xs={4} className={classes.colWrap}>
+                                    <Typography variant="caption" align="right">Power cost/{section}</Typography>
+                                    <Typography variant="title" align="right" className={statistics[section].profit > 0 ? classes.textPositive : classes.textNegative}>${statistics[section].powerCost}</Typography>
+                                </Grid>
+                            </Grid>
+                        </div>
+                    ))}
+                </div>}
             </div>
         );
     }
