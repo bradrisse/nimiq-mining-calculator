@@ -63,6 +63,30 @@ const styles = {
     }
 };
 
+const convertToH = (_rate, _unit) => {
+    var _H = parseFloat(_rate);
+
+    switch (_unit) {
+        case 'h':
+            return _H;
+            break;
+        case 'kh':
+            return _H * 1000;
+            break;
+        case 'mh':
+            return _H * 1000000;
+            break;
+        case 'gh':
+            return _H * 1000000000;
+            break;
+        case 'th':
+            return _H * 1000000000000000;
+            break;
+
+    }
+}
+
+
 class ProfitTable extends React.Component {
 
     render() {
@@ -79,6 +103,10 @@ class ProfitTable extends React.Component {
                         <Grid xs={4}>
                             <Typography variant="caption" align="center">Single Block Mining Solo</Typography>
                             <Typography variant="title" align="center">{(initialValues.reward / statistics['day'].mined).toFixed(0)} days</Typography>
+                        </Grid>
+                        <Grid xs={4}>
+                            <Typography variant="caption" align="center">Cost per Hash</Typography>
+                            <Typography variant="title" align="center">${(parseFloat(initialValues.hardwareCost) / parseFloat(convertToH(initialValues.hashRate, initialValues.hashUnit))).toFixed(3)}</Typography>
                         </Grid>
                     </Grid>
                     { Object.keys(statistics).map((section, index) => (
