@@ -18,14 +18,9 @@ import IconButton from 'material-ui/IconButton';
 import ShareIcon from 'material-ui-icons/Share';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import _ from 'lodash';
+import {convertToH, _formatNumber} from 'utils';
 
 import {compose} from 'recompose';
-
-const addParameterToURL = (param, value) => {
-    var _url = window.location.href;
-    _url += ( _url.match(/[\?]/g) ? '&' : '?' ) + param + '=' + value;
-    window.location.href = _url;
-}
 
 const styles = theme => ({
     container: {
@@ -55,53 +50,6 @@ const styles = theme => ({
     }
 });
 
-const convertToH = (_rate, _unit) => {
-    var _H = parseFloat(_rate);
-
-    switch (_unit) {
-        case 'h':
-            return _H;
-            break;
-        case 'kh':
-            return _H * 1000;
-            break;
-        case 'mh':
-            return _H * 1000000;
-            break;
-        case 'gh':
-            return _H * 1000000000;
-            break;
-        case 'th':
-            return _H * 1000000000000000;
-            break;
-
-    }
-}
-
-
-const _formatNumber = (num, price) => {
-    let _num = num;
-
-    if (price) {
-        if (Math.abs(_num) >= 0.009) {
-            _num = num.toFixed(2)
-        }
-
-        if (Math.abs(_num) < 0.009) {
-            console.log('num', num)
-            _num = num.toFixed(6)
-        }
-    } else {
-        if (Math.abs(_num) < 1) {
-            _num = parseFloat(num.toFixed(6))
-        }
-
-        if (Math.abs(_num) > 1) {
-            _num = parseFloat(num.toFixed(0))
-        }
-    }
-    return _num
-}
 
 const defaultValues = {
     hashRate: 36,

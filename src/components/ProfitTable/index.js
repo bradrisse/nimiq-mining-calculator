@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Grid from 'material-ui/Grid';
+import {convertToH, commarize} from 'utils';
 
 const styles = {
     root: {
@@ -63,30 +64,6 @@ const styles = {
     }
 };
 
-const convertToH = (_rate, _unit) => {
-    var _H = parseFloat(_rate);
-
-    switch (_unit) {
-        case 'h':
-            return _H;
-            break;
-        case 'kh':
-            return _H * 1000;
-            break;
-        case 'mh':
-            return _H * 1000000;
-            break;
-        case 'gh':
-            return _H * 1000000000;
-            break;
-        case 'th':
-            return _H * 1000000000000000;
-            break;
-
-    }
-}
-
-
 class ProfitTable extends React.Component {
 
     render() {
@@ -115,16 +92,16 @@ class ProfitTable extends React.Component {
                             <Grid container key={index} spacing={0}>
                                 <Grid item xs={4} className={statistics[section].profit > 0 ? classes.colWrapPositive : classes.colWrapNegative}>
                                     <Typography variant="caption" align="right" color="secondary">Profit per {section}</Typography>
-                                    <Typography variant="title" align="right" color="secondary">${statistics[section].profit}</Typography>
-                                    <Typography variant="caption" align="right" color="secondary">Pool Fee ${statistics[section].poolFee}</Typography>
+                                    <Typography variant="title" align="right" color="secondary">${commarize(statistics[section].profit)}</Typography>
+                                    <Typography variant="caption" align="right" color="secondary">Pool Fee ${commarize(statistics[section].poolFee)}</Typography>
                                 </Grid>
                                 <Grid item xs={4} className={classes.colWrapBorder}>
                                     <Typography variant="caption" align="right">Mined per {section}</Typography>
-                                    <Typography variant="title" align="right" className={statistics[section].profit > 0 ? classes.textPositive : classes.textNegative}>NIM {statistics[section].mined}</Typography>
+                                    <Typography variant="title" align="right" className={statistics[section].profit > 0 ? classes.textPositive : classes.textNegative}>NIM {commarize(statistics[section].mined)}</Typography>
                                 </Grid>
                                 <Grid item xs={4} className={classes.colWrap}>
                                     <Typography variant="caption" align="right">Power cost/{section}</Typography>
-                                    <Typography variant="title" align="right" className={statistics[section].profit > 0 ? classes.textPositive : classes.textNegative}>${statistics[section].powerCost}</Typography>
+                                    <Typography variant="title" align="right" className={statistics[section].profit > 0 ? classes.textPositive : classes.textNegative}>${commarize(statistics[section].powerCost)}</Typography>
                                 </Grid>
                             </Grid>
                         </div>
