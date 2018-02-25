@@ -64,6 +64,16 @@ export default {
                     backgroundColor: 'transparent'
                 }
             }
-        }
+        },
+        MuiExpansionPanelSummary: {
+            root: {
+                padding: '0 0 0 10px'
+            }
+        },
+        MuiExpansionPanelDetails: {
+            root: {
+                padding: '0px 24px 0 0px'
+}
+}
     }
 }
