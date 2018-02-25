@@ -215,7 +215,7 @@ class Calculator extends React.Component {
     render() {
         const {classes, handleSubmit} = this.props;
         return (
-            <Grid container style={{maxWidth: 1024, margin: '0 auto'}}>
+            <Grid container style={{maxWidth: 1024, margin: '0 auto'}} spacing={0}>
                 <Grid item xs={12} sm={5}>
                     <div className={classes.calcWrap}>
                         <Card className={classes.card} elevation={0}>
@@ -313,13 +313,16 @@ class Calculator extends React.Component {
                     <ProfitTable statistics={this.state.statistics} initialValues={this.state.values}/>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant="caption" component="p" align="center">
+                    <Typography variant="caption" component="p" align="center" gutterBottom>
                         The estimated expected cryptocurrency earnings are based on a statistical calculation using the
                         values entered and do not account for difficulty and exchange rate fluctuations,
                         stale/reject/orphan rates, and a pool's efficiency. If you are mining using a pool, the
                         estimated expected cryptocurrency earnings can vary greatly depending on the pool's efficiency,
                         stale/reject/orphan rate, and fees. If you are mining solo, the estimated expected
                         cryptocurrency earnings can vary greatly depending on your luck and stale/reject/orphan rate.
+                    </Typography>
+                    <Typography variant="caption" component="p" align="center">
+                        This web application is built on top of the <a href="https://nimiq.com" target="_blank">Nimiq Blockchain</a>. <a href="https://github.com/bradrisse/nimiq-mining-calculator" target="_blank">View Source Code on Github</a>.
                     </Typography>
                 </Grid>
             </Grid>
