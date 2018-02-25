@@ -120,10 +120,14 @@ const defaultValues = {
 class Calculator extends React.Component {
 
     state = {
-        statistics: null
+        statistics: null,
+        values: null
     }
 
     componentDidMount() {
+        this.setState({
+            values: defaultValues
+        })
         this.submit(this.checkForParams(defaultValues));
         this.createShareUrl(defaultValues)
     }
@@ -155,6 +159,9 @@ class Calculator extends React.Component {
     }
 
     submit = (values) => {
+        this.setState({
+            values: values
+        })
         this.calculateProfit(values)
         this.createShareUrl(values)
     }
@@ -303,7 +310,7 @@ class Calculator extends React.Component {
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={7}>
-                    <ProfitTable statistics={this.state.statistics} initialValues={this.props.initialValues}/>
+                    <ProfitTable statistics={this.state.statistics} initialValues={this.state.values}/>
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="caption" component="p" align="center">

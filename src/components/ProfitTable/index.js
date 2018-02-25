@@ -74,7 +74,7 @@ class ProfitTable extends React.Component {
                     <Grid container className={classes.topStat} spacing={0}>
                         <Grid xs={4}>
                             <Typography variant="caption" align="center">Return on Investment</Typography>
-                            <Typography variant="title" align="center">{(initialValues.hardwareCost / statistics['day'].profit).toFixed(0)} days</Typography>
+                            <Typography variant="title" align="center">{(parseFloat(initialValues.hardwareCost) / statistics['day'].profit).toFixed(0)} days</Typography>
                         </Grid>
                         <Grid xs={4}>
                             <Typography variant="caption" align="center">Single Block Mining Solo</Typography>
