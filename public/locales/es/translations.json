@@ -1,0 +1,54 @@
+{
+  "header": {
+    "title": "Nimiq Miner",
+    "volume24": "Volumen (24hr)",
+    "price": "Precio USD",
+    "change24": "Cambio (24hr)"
+  },
+  "calculator": {
+    "heading": "Calculadora Minera",
+    "hashingPower": "Poder de Hashing",
+    "hashUnit": "Unidad Hash",
+    "units": {
+      "h": "H/s",
+      "kh": "KH/s",
+      "mh": "MH/s",
+      "gh": "GH/s",
+      "th": "TH/s"
+    },
+    "hardwareCost": "Costo de Hardware ($)",
+    "powerConsumption": "Consumo de Energía (w)",
+    "costPerKWH": "Costo por KWH ($)",
+    "poolFee": "Cuota de Grupo",
+    "advanced": "Avanzado",
+    "globalHashRate": "Tarifa de Hash Global",
+    "blockTime": "Tiempo de Bloque (sec)",
+    "blockReward": "Recompenza de Bloque (NIM)",
+    "nimPrice": "Precío NIM ($)",
+    "calculate": "Calcular",
+    "disclaimer": "Las ganancias estimadas son basadas en calculaciones estadisticas usando valores ingresados y no toman en cuenta los cambios en tarifas ni difficultades, tarifas de rechazo, o efficiencia de grupos. Si usted utiliza un grupo de mineria, las ganacias estimadas pueden variar dependiendo en las probabilidades/suerte y las tarifas de rechazo."
+  },
+  "profitTable": {
+    "returnOnInvestment": "Retorno de la Inversion",
+    "day": "día",
+    "week": "semana",
+    "month": "mes",
+    "year": "año",
+    "days": "dias",
+    "weeks": "semanas",
+    "months": "meses",
+    "years": "años",
+    "soloMining": "Single Block Mining Solo",
+    "costPerHash": "Costo por Hash",
+    "profitPer": "Lucro per",
+    "poolFee": "Cuota de Grupo",
+    "minedPer": "Mined per",
+    "nim": "NIM",
+    "powerCost": "Costo de Energia"
+  },
+  "footer": {
+    "part1": "Esta aplicacion esta construida encima de",
+    "part2": "Nimiq Blockchain",
+    "part3": "Mirar codigo en Github"
+  }
+}
