@@ -20,7 +20,8 @@ import {CopyToClipboard} from 'react-copy-to-clipboard';
 import _ from 'lodash';
 import {convertToH, _formatNumber} from 'utils';
 
-import {compose} from 'recompose';
+import { translate } from 'react-i18next';
+import { compose } from 'recompose';
 
 const styles = theme => ({
     container: {
@@ -161,14 +162,14 @@ class Calculator extends React.Component {
     }
 
     render() {
-        const {classes, handleSubmit} = this.props;
+        const {classes, handleSubmit, t} = this.props;
         return (
             <Grid container style={{maxWidth: 1024, margin: '0 auto'}} spacing={0}>
                 <Grid item xs={12} sm={5}>
                     <div className={classes.calcWrap}>
                         <Card className={classes.card} elevation={0}>
                             <CardHeader
-                                title="Mining Calculator"
+                                title={t('calculator.heading')}
                                 action={
                                     <CopyToClipboard text={this.state.copyUrl} onCopy={() => this.setState({copied: true})}>
                                         <IconButton>
@@ -181,12 +182,12 @@ class Calculator extends React.Component {
                                 <form onSubmit={handleSubmit(this.submit)} className={classes.container}>
                                     <Grid container>
                                         <Grid item xs={7}>
-                                            <Field name="hashRate" component={TextField} label="Hashing Power"
+                                            <Field name="hashRate" component={TextField} label={t('calculator.hashingPower')}
                                                    className={classes.textField} required/>
                                         </Grid>
                                         <Grid item xs={5}>
                                             <FormControl className={classes.formControl}>
-                                                <InputLabel htmlFor="hashUnit">Hash Unit</InputLabel>
+                                                <InputLabel htmlFor="hashUnit">{t('calculator.hashUnit')}</InputLabel>
                                                 <Field
                                                     name="hashUnit"
                                                     component={Select}
@@ -194,39 +195,39 @@ class Calculator extends React.Component {
                                                     value="h"
                                                     fullWidth
                                                 >
-                                                    <MenuItem value="h">H/s</MenuItem>
-                                                    <MenuItem value="kh">KH/s</MenuItem>
-                                                    <MenuItem value="mh">MH/s</MenuItem>
-                                                    <MenuItem value="gh">GH/s</MenuItem>
-                                                    <MenuItem value="th">TH/s</MenuItem>
+                                                    <MenuItem value="h">{t('calculator.units.h')}</MenuItem>
+                                                    <MenuItem value="kh">{t('calculator.units.kh')}</MenuItem>
+                                                    <MenuItem value="mh">{t('calculator.units.mh')}</MenuItem>
+                                                    <MenuItem value="gh">{t('calculator.units.gh')}</MenuItem>
+                                                    <MenuItem value="th">{t('calculator.units.th')}</MenuItem>
                                                 </Field>
                                             </FormControl>
                                         </Grid>
                                     </Grid>
                                     <div className="cf"></div>
-                                    <Field fullWidth name="hardwareCost" label="Hardware Cost ($)" component={TextField}
+                                    <Field fullWidth name="hardwareCost" label={t('calculator.hardwareCost')} component={TextField}
                                            placeholder="" className={classes.textField}/>
-                                    <Field fullWidth name="powerConsumption" label="Power Consumption (w)"
-                                           component={TextField} placeholder="Power Consumption"
+                                    <Field fullWidth name="powerConsumption" label={t('calculator.powerConsumption')}
+                                           component={TextField}
                                            className={classes.textField} required/>
-                                    <Field fullWidth name="kwhCost" label="Cost per KWH ($)" component={TextField}
+                                    <Field fullWidth name="kwhCost" label={t('calculator.costPerKWH')} component={TextField}
                                            placeholder="" className={classes.textField} required/>
-                                    <Field fullWidth name="poolFee" label="Pool Fee" component={TextField}
+                                    <Field fullWidth name="poolFee" label={t('calculator.poolFee')} component={TextField}
                                            placeholder="" className={classes.textField} required/>
                                     <ExpansionPanel elevation={0}>
                                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                                            <Typography className={classes.heading}>Advanced</Typography>
+                                            <Typography className={classes.heading}>{t('calculator.advanced')}</Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails className={classes.container}>
                                             <Grid container>
                                                 <Grid item xs={7}>
-                                                    <Field fullWidth name="globalHashRate" label="Global Hash Rate"
+                                                    <Field fullWidth name="globalHashRate" label={t('calculator.globalHashRate')}
                                                            component={TextField} placeholder=""
                                                            className={classes.textField}/>
                                                 </Grid>
                                                 <Grid item xs={5}>
                                                     <FormControl className={classes.formControl}>
-                                                        <InputLabel htmlFor="globalHashUnit">Hash Unit</InputLabel>
+                                                        <InputLabel htmlFor="globalHashUnit">{t('calculator.hashUnit')}</InputLabel>
                                                         <Field
                                                             name="globalHashUnit"
                                                             component={Select}
@@ -234,24 +235,24 @@ class Calculator extends React.Component {
                                                             value="h"
                                                             fullWidth
                                                         >
-                                                            <MenuItem value="h">H/s</MenuItem>
-                                                            <MenuItem value="kh">KH/s</MenuItem>
-                                                            <MenuItem value="mh">MH/s</MenuItem>
-                                                            <MenuItem value="gh">GH/s</MenuItem>
-                                                            <MenuItem value="th">TH/s</MenuItem>
+                                                            <MenuItem value="h">{t('calculator.units.h')}</MenuItem>
+                                                            <MenuItem value="kh">{t('calculator.units.kh')}</MenuItem>
+                                                            <MenuItem value="mh">{t('calculator.units.mh')}</MenuItem>
+                                                            <MenuItem value="gh">{t('calculator.units.gh')}</MenuItem>
+                                                            <MenuItem value="th">{t('calculator.units.th')}</MenuItem>
                                                         </Field>
                                                     </FormControl>
                                                 </Grid>
                                             </Grid>
-                                            <Field fullWidth defaultValue={60} name="blockTime" label="Block Time (sec)"
+                                            <Field fullWidth defaultValue={60} name="blockTime" label={t('calculator.blockTime')}
                                                    component={TextField} placeholder="" className={classes.textField}/>
-                                            <Field fullWidth name="reward" label="Block Reward (NIM)"
+                                            <Field fullWidth name="reward" label={t('calculator.blockReward')}
                                                    component={TextField} placeholder="" className={classes.textField}/>
-                                            <Field fullWidth name="price" label="NIM Price ($)" component={TextField}
+                                            <Field fullWidth name="price" label={t('calculator.nimPrice')} component={TextField}
                                                    placeholder="" className={classes.textField}/>
                                         </ExpansionPanelDetails>
                                     </ExpansionPanel>
-                                    <Button type="submit" variant="raised">Calculate</Button>
+                                    <Button type="submit" variant="raised">{t('calculator.calculate')}</Button>
                                 </form>
                             </CardContent>
                         </Card>
@@ -262,15 +263,10 @@ class Calculator extends React.Component {
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="caption" component="p" align="center" gutterBottom>
-                        The estimated expected cryptocurrency earnings are based on a statistical calculation using the
-                        values entered and do not account for difficulty and exchange rate fluctuations,
-                        stale/reject/orphan rates, and a pool's efficiency. If you are mining using a pool, the
-                        estimated expected cryptocurrency earnings can vary greatly depending on the pool's efficiency,
-                        stale/reject/orphan rate, and fees. If you are mining solo, the estimated expected
-                        cryptocurrency earnings can vary greatly depending on your luck and stale/reject/orphan rate.
+                        {t('calculator.disclaimer')}
                     </Typography>
                     <Typography variant="caption" component="p" align="center">
-                        This web application is built on top of the <a href="https://nimiq.com" target="_blank">Nimiq Blockchain</a>. <a href="https://github.com/bradrisse/nimiq-mining-calculator" target="_blank">View Source Code on Github</a>.
+                        {t('footer.part1')} <a href="https://nimiq.com" target="_blank">{t('footer.part2')}</a>. <a href="https://github.com/bradrisse/nimiq-mining-calculator" target="_blank">{t('footer.part3')}</a>.
                     </Typography>
                 </Grid>
             </Grid>
@@ -292,5 +288,6 @@ function mapStateToProps(state, props) {
 export default compose(
     withStyles(styles),
     connect(mapStateToProps),
+    translate('translations'),
     reduxForm({form: 'miningCalc'}, mapStateToProps),
 )(Calculator);

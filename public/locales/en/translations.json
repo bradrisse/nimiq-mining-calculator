@@ -1,0 +1,54 @@
+{
+  "header": {
+    "title": "Nimiq Miner",
+    "volume24": "Volume (24hr)",
+    "price": "Price USD",
+    "change24": "Change (24hr)"
+  },
+  "calculator": {
+    "heading": "Mining Calculator",
+    "hashingPower": "Hashing Power",
+    "hashUnit": "Hash Unit",
+    "units": {
+      "h": "H/s",
+      "kh": "KH/s",
+      "mh": "MH/s",
+      "gh": "GH/s",
+      "th": "TH/s"
+    },
+    "hardwareCost": "Hardware Cost ($)",
+    "powerConsumption": "Power Consumption (w)",
+    "costPerKWH": "Cost per KWH ($)",
+    "poolFee": "Pool Fee",
+    "advanced": "Advanced",
+    "globalHashRate": "Global Hash Rate",
+    "blockTime": "Block Time (sec)",
+    "blockReward": "Block Reward (NIM)",
+    "nimPrice": "NIM Price ($)",
+    "calculate": "Calculate",
+    "disclaimer": "The estimated expected cryptocurrency earnings are based on a statistical calculation using the values entered and do not account for difficulty and exchange rate fluctuations, stale/reject/orphan rates, and a pool's efficiency. If you are mining using a pool, the estimated expected cryptocurrency earnings can vary greatly depending on the pool's efficiency, stale/reject/orphan rate, and fees. If you are mining solo, the estimated expectedcryptocurrency earnings can vary greatly depending on your luck and stale/reject/orphan rate."
+  },
+  "profitTable": {
+    "returnOnInvestment": "Return on Investment",
+    "day": "day",
+    "week": "week",
+    "month": "month",
+    "year": "year",
+    "days": "days",
+    "weeks": "weeks",
+    "months": "months",
+    "years": "years",
+    "soloMining": "Single Block Mining Solo",
+    "costPerHash": "Cost per Hash",
+    "profitPer": "Profit per",
+    "poolFee": "Pool Fee",
+    "minedPer": "Mined per",
+    "nim": "NIM",
+    "powerCost": "Power cost"
+  },
+  "footer": {
+    "part1": "This web application is built on top of the",
+    "part2": "Nimiq Blockchain",
+    "part3": "View Source Code on Github"
+  }
+}
