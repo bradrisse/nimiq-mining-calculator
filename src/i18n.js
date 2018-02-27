@@ -8,11 +8,21 @@ i18n
     .use(LanguageDetector)
     .use(reactI18nextModule)
     .init({
-        fallbackLng: 'en',
+        fallbackLng: {
+            'nl-NL': ['nl'],
+            'en-US': ['en'],
+            'fr-FR': ['fr'],
+            default: ['en'],
+        },
 
         // have a common namespace used around the full app
         ns: ['translations'],
         defaultNS: 'translations',
+
+        backend: {
+            // path where resources get loaded from
+            loadPath: 'locales/{{lng}}/{{ns}}.json'
+        },
 
         debug: true,
 
