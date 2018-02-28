@@ -74,17 +74,21 @@ class ProfitTable extends React.Component {
             <div className={classes.wrap}>
                 {statistics && <div>
                     <Grid container className={classes.topStat} spacing={0}>
-                        <Grid xs={4}>
+                        <Grid xs={3}>
                             <Typography variant="caption" align="center">{t('profitTable.returnOnInvestment')}</Typography>
                             <Typography variant="title" align="center">{(parseFloat(initialValues.hardwareCost) / statistics['day'].profit).toFixed(0)} {t('profitTable.days')}</Typography>
                         </Grid>
-                        <Grid xs={4}>
+                        <Grid xs={3}>
                             <Typography variant="caption" align="center">{t('profitTable.soloMining')}</Typography>
                             <Typography variant="title" align="center">{(initialValues.reward / statistics['day'].mined).toFixed(0)} {t('profitTable.days')}</Typography>
                         </Grid>
-                        <Grid xs={4}>
+                        <Grid xs={3}>
                             <Typography variant="caption" align="center">{t('profitTable.costPerHash')}</Typography>
                             <Typography variant="title" align="center">${(parseFloat(initialValues.hardwareCost) / parseFloat(convertToH(initialValues.hashRate, initialValues.hashUnit))).toFixed(3)}</Typography>
+                        </Grid>
+                        <Grid xs={3}>
+                            <Typography variant="caption" align="center">{t('profitTable.hashPerWatts')}</Typography>
+                            <Typography variant="title" align="center">{(parseFloat(convertToH(initialValues.hashRate, initialValues.hashUnit)) / parseFloat(initialValues.powerConsumption)).toFixed(3)}</Typography>
                         </Grid>
                     </Grid>
                     { Object.keys(statistics).map((section, index) => (

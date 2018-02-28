@@ -44,7 +44,8 @@
     "poolFee": "Pool Fee",
     "minedPer": "Mined per",
     "nim": "NIM",
-    "powerCost": "Power cost"
+    "powerCost": "Power cost",
+    "hashPerWatts": "Hashes per watt"
   },
   "footer": {
     "part1": "This web application is built on top of the",
