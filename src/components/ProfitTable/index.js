@@ -42,21 +42,21 @@ const styles = {
         textTransform: 'capitalize'
     },
     sectionTagPositive: {
-        background: '#258C66'
+        background: '#3A54E5'
     },
     sectionTagNegative: {
         background: '#C14848'
     },
     colWrapPositive: {
         padding: '15px 15px 0 15px!important',
-        background: '#3FB488'
+        background: '#536DFE'
     },
     colWrapNegative: {
         padding: '15px 15px 0 15px!important',
         background: '#F15C5C'
     },
     textPositive: {
-        color: '#258C66'
+        color: '#3A54E5'
     },
     textNegative: {
         color: '#C14848'
