@@ -40,7 +40,7 @@ export default {
         },
         MuiAppBar: {
             colorPrimary: {
-                backgroundColor: '#042146'
+                backgroundColor: '#A553FE'
             }
         },
         MuiCardHeader: {
